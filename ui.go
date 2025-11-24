@@ -1070,19 +1070,22 @@ func (ui *GameUI) gameLoop() {
 			}
 		}
 
-		ui.updateLabels()
-		ui.gameCanvas.Refresh()
+		fyne.Do(ui.updateLabels)
+		fyne.Do(ui.gameCanvas.Refresh)
 
 		// Check for game over and save high score
 		if ui.game.State == StateGameOver && ui.game.Score > 0 {
 			if ui.highScoreMgr.AddScore(ui.game.Score) {
-				ui.highScoreLabel.SetText("High Scores:\n" + ui.formatHighScores())
+				fyne.Do(func() {
+					ui.highScoreLabel.SetText("High Scores:\n" + ui.formatHighScores())
+				})
 			}
 		}
 	}
 }
 
 // updateLabels updates the UI labels
+// Note: This function should be called via fyne.Do() when called from non-UI threads
 func (ui *GameUI) updateLabels() {
 	ui.scoreLabel.SetText("Score: " + strconv.Itoa(ui.game.Score))
 	ui.livesLabel.SetText("Lives: " + strconv.Itoa(ui.game.Lives))
