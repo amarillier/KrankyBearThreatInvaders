@@ -1486,20 +1486,27 @@ func (ui *GameUI) updateAlert(updtmsg string) {
 	}
 	kbimg.SetMinSize(fyne.NewSize(150, 150))
 
-	// Create text label with update message - clean up excessive line breaks
-	cleanedMsg := strings.ReplaceAll(updtmsg, "======", "")
-	cleanedMsg = strings.ReplaceAll(cleanedMsg, "=====", "")
-	cleanedMsg = strings.ReplaceAll(cleanedMsg, "====", "")
-	cleanedMsg = strings.TrimSpace(cleanedMsg)
-	text := widget.NewLabel(cleanedMsg)
+	// Create text label with update message
+	text := widget.NewLabel(updtmsg)
 	text.Wrapping = fyne.TextWrapWord
 
 	// Layout: image on left, text on right (left-justified)
+	// Use Border layout to make text container expand to fill available width
 	textContainer := container.NewVBox(
 		container.NewPadded(text),
 		myreleaselink,
 		myreleasenoteslink,
 	)
+
+	// Use Border layout for the horizontal container to make text expand
+	mainContent := container.NewBorder(
+		nil,
+		nil,
+		container.NewPadded(kbimg), // Left: image
+		nil,
+		textContainer, // Center: text (will expand to fill)
+	)
+
 	content := container.NewBorder(
 		nil,
 		container.NewCenter(widget.NewButton("Close", func() {
@@ -1509,17 +1516,14 @@ func (ui *GameUI) updateAlert(updtmsg string) {
 		})),
 		nil,
 		nil,
-		container.NewHBox(
-			container.NewPadded(kbimg),
-			textContainer,
-		),
+		mainContent,
 	)
 
 	// Create window
 	// ui.updateDialog = ui.app.NewWindow(appName + ": Update Check")
 	ui.updateDialog = ui.app.NewWindow("KrankyBear ThreatInvaders: Update Check")
 	ui.updateDialog.SetIcon(resourceKrankyBearUSArmyCombatHelmetWoodlandPng)
-	ui.updateDialog.Resize(fyne.NewSize(700, 300))
+	ui.updateDialog.Resize(fyne.NewSize(850, 300))
 	ui.updateDialog.SetContent(content)
 	ui.updateDialog.SetOnClosed(func() {
 		ui.updateDialog = nil
