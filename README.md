@@ -93,6 +93,70 @@ Install the `.deb` (Debian/Ubuntu) or `.rpm` (RedHat/Fedora) package from the `i
 ### Windows
 Run the installer from the `installers/` directory.
 
+## Sideloading Mobile Apps
+
+**Note:** iPhone and Android phone support may be added in the future. Currently, the application is designed for desktop platforms (macOS, Windows, Linux). The following information is provided for reference when mobile support becomes available.
+
+### iOS Sideloading
+
+**Option 1: Using Xcode (Recommended for Development)**
+1. Connect your iOS device to your Mac via USB
+2. Open Xcode
+3. Go to **Window** → **Devices and Simulators**
+4. Select your connected device
+5. Drag the `KrankyBearThreatInvaders.app` bundle onto the "Installed Apps" list
+6. Trust the developer certificate on your device: **Settings** → **General** → **Device Management** → Trust your developer account
+
+**Option 2: Using AltStore (No Developer Account Required)**
+1. Install [AltStore](https://altstore.io/) on your iOS device
+2. Transfer the `.ipa` file (convert `.app` to `.ipa` if needed) to your device
+3. Open AltStore and install the app
+4. Refresh the app weekly using AltStore (free account limitation)
+
+**Option 3: Using Sideloadly (Windows/Mac)**
+1. Download [Sideloadly](https://sideloadly.io/)
+2. Connect your iOS device
+3. Drag the `.ipa` file into Sideloadly
+4. Enter your Apple ID (non-developer account works)
+5. Click "Start" to install
+
+**Note:** Apps installed via sideloading expire after 7 days (free Apple ID) or 1 year (paid developer account). You'll need to reinstall periodically.
+
+### Android Sideloading
+
+**Option 1: Using ADB (Recommended for Development)**
+1. Enable **Developer Options** on your Android device:
+   - Go to **Settings** → **About Phone**
+   - Tap **Build Number** 7 times
+2. Enable **USB Debugging**:
+   - Go to **Settings** → **Developer Options**
+   - Enable **USB Debugging**
+3. Connect your device to your computer via USB
+4. Install the APK:
+   ```bash
+   adb install KrankyBearThreatInvaders.apk
+   ```
+
+**Option 2: Direct Installation**
+1. Transfer the `KrankyBearThreatInvaders.apk` file to your Android device
+2. On your device, go to **Settings** → **Security** → Enable **Unknown Sources** (or **Install Unknown Apps** on newer Android versions)
+3. Open the APK file using a file manager
+4. Tap **Install** when prompted
+
+**Option 3: Using Wireless ADB**
+1. Connect your device via USB initially
+2. Enable wireless debugging:
+   ```bash
+   adb tcpip 5555
+   adb connect <device-ip>:5555
+   ```
+3. Disconnect USB and install wirelessly:
+   ```bash
+   adb install KrankyBearThreatInvaders.apk
+   ```
+
+**Security Note:** Sideloading apps from unknown sources can pose security risks. Only install apps from trusted sources.
+
 ## License
 
 This project is provided as-is, free for personal, educational and commercial use, under GNU GPL-3.0

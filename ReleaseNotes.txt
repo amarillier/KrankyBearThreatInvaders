@@ -2,6 +2,7 @@ Release notes
 
 0.1.NEXT
 - nothing specific planned for now
+- possible iPhone and Android phone compile
 
 0.1.0 
 - initial checkin
